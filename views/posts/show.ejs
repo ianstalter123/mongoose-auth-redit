@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+
+<div class="panel panel-default">
+  <div class="panel-body">
+<h2 class="jumbotron"><%=post.title%> </h2>
+
+<!-- <a href = "<%=post.url%>"><%=post.url%> </a> -->
+
+<button><a href = "/posts/<%=post.id%>/edit">Edit</a></button>
+
+<button><a href = "/posts/<%=post.id%>/comments/new">add a comment</a></button>
+
+<form style="float:left" action = "/posts/<%=post._id%>/?_method=DELETE" method = "post">
+
+<button type = "submit">Delete this</button>
+</form>
+
+<ul class="list-group">
+<%post.comments.forEach(function(comment){%>
+
+<li class="list-group-item"><a href = "/posts/<%=post.id%>/comments/<%=comment.id%>"><%=comment.comment%></a></li>
+
+<%})%>
+</ul>
+<a class="btn btn-default" href = "/posts/">Go home</a>
+</div>
+</div>
+</body>
+</html>
+

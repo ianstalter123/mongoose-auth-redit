@@ -1,0 +1,29 @@
+{
+  "name": "mongo_zoo_assocations_app",
+  "version": "1.0.0",
+  "description": "For this assignment you will need to combine your knowledge of models, and associations to build a zoo application!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gSchool/mongo_zoo_assocations_app"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gSchool/mongo_zoo_assocations_app/issues"
+  },
+  "homepage": "https://github.com/gSchool/mongo_zoo_assocations_app",
+  "dependencies": {
+    "bcrypt": "^0.8.3",
+    "body-parser": "^1.13.1",
+    "cookie-session": "^1.1.0",
+    "ejs": "^2.3.1",
+    "express": "^4.12.4",
+    "method-override": "^2.3.3",
+    "mongoose": "^4.0.5",
+    "morgan": "^1.6.0"
+  }
+}

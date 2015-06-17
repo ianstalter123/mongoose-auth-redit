@@ -1,0 +1,18 @@
+<% include ../partials/header %>
+
+<div class="panel panel-default">
+  <div  class="panel-body">
+<h1 class="jumbotron"> Welcome to exp reddit </h1>
+
+<a class="btn btn-default" href = "/posts/new"> Add a post </a>
+<ul class="list-group">
+<%posts.forEach(function(post){%>
+<li class="list-group-item"><a href = "/posts/<%=post._id%>" ><%=post.title%></a></li>
+
+<%})%>
+</ul>
+
+<a class="btn btn-default" href = "/logout">logout</a>
+
+</div>
+</div>

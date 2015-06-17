@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="panel panel-default">
+  <div class="panel-body">
+	<h1>Edit an existing post</h1>
+
+<form action = "/posts/<%= post.id %>/?_method=PUT" method = "post">
+
+Title: <input value="<%= post.title %>" type = "text" name = "post[title]">
+URL: <input value ="<%= post.url %>" type = "text" name = "post[url]">
+
+<button type = "submit">Edit post</button>
+</form>
+
+</div>
+</div>
+
+<a class="btn btn-default" href = "/posts/">Go home</a>
+</body>
+</html>
+
+

@@ -1,0 +1,23 @@
+<% include ../partials/header %>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+
+<h1> edit comment</h1>
+<form action = "/posts/<%= comment.post.id %>/comments/<%= comment._id %>?_method=PUT" method = "post">
+
+Comment: <input value="<%= comment.comment %>" type = "text" name = "comment[comment]">
+
+
+<button type = "submit">Update</button>
+</form>
+
+<form action = "/posts/<%= comment.post.id %>/comments/<%= comment._id %>?_method=DELETE" method = "post">
+
+<button type = "submit">Delete</button>
+</form>
+
+<a class="btn btn-default" href = "/posts">Go home </a>
+
+</div>
+</div>
