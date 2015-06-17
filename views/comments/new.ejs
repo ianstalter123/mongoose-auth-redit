@@ -1,3 +1,7 @@
+<% include ../partials/header %>
+
+<div class="panel panel-default">
+  <div class="panel-body">
 <h1>post a new comment</h1>
 
 <form action = "/posts/<%= post.id%>/comments" method = "post">
@@ -7,3 +11,7 @@ Comment: <input type = "text" name = "comment[comment]">
 
 <button type = "submit">Create comment</button>
 </form>
+
+<a class="btn btn-default" href = "/posts">Go home </a>
+</div>
+</div>
