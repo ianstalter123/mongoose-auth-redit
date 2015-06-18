@@ -116,7 +116,7 @@ app.get('/posts/:id/edit', function(req,res){
    
 });
 //update
-app.put('/posts/:id', function(req,res){
+app.put('/posts/:id',routeMiddleware.ensureCorrectUser, function(req,res){
  db.Post.findByIdAndUpdate(req.params.id, req.body.post,
      function (err, post) {
        if(err) {
@@ -164,7 +164,12 @@ app.get('/posts/:post_id/comments/new', function(req,res){
 
 // CREATE
 app.post('/posts/:post_id/comments', function(req,res){
-  db.Comment.create(req.body.comment, function(err, comment){
+
+  var newComment = req.body.comment;
+  newComment.ownerId = req.session.id;
+
+
+  db.Comment.create(newComment, function(err, comment){
     console.log(comment)
     if(err) {
       console.log(err);
@@ -218,7 +223,7 @@ app.put('/posts/:post_id/comments/:id', function(req,res){
 });
 
 // DESTROY
-app.delete('/posts/:post_id/comments/:id', function(req,res){
+app.delete('/posts/:post_id/comments/:id',routeMiddleware.ensureCorrectUserCom, function(req,res){
  db.Comment.findByIdAndRemove(req.params.id, req.body.comments,
       function (err, comment) {
         if(err) {
