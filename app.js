@@ -31,7 +31,7 @@ app.get('/', routeMiddleware.ensureLoggedIn, function(req,res){
   res.render('users/index');
 });
 
-app.get('/signup', routeMiddleware.preventLoginSignup ,function(req,res){
+app.get('/signup', routeMiddleware.preventLoginSignup ,routeMiddleware.ensureLoggedIn,function(req,res){
   res.render('users/signup');
 });
 
@@ -67,26 +67,26 @@ app.post("/login", function (req, res) {
   });
 });
 
-app.get('/posts', function(req,res){
+app.get('/posts',routeMiddleware.ensureLoggedIn, function(req,res){
    db.Post.find({},
     function (err, posts) {
       res.render("posts/index", {posts:posts});
     });
 });
 
-app.get('/posts/new', function(req,res) {
+app.get('/posts/new',routeMiddleware.ensureLoggedIn, function(req,res) {
 	res.render("posts/new")
 })
 
 // CREATE
-app.post('/posts', function(req,res){
+app.post('/posts',routeMiddleware.ensureLoggedIn, function(req,res){
 
   var newPost = req.body.post;
   newPost.ownerId = req.session.id;
 
 
 
-  db.Post.create(newPost, function(err, post){
+  db.Post.create(newPost,routeMiddleware.ensureLoggedIn, function(err, post){
     if(err) {
 
       console.log(err);
@@ -101,7 +101,7 @@ app.post('/posts', function(req,res){
 });
 
 // SHOW
-app.get('/posts/:id', function(req,res){
+app.get('/posts/:id',routeMiddleware.ensureLoggedIn, function(req,res){
   db.Post.findById(req.params.id).populate("comments").exec(function(err,post){
     res.render("posts/show", {post:post});
   })
@@ -109,14 +109,14 @@ app.get('/posts/:id', function(req,res){
 });
 
 // EDIT
-app.get('/posts/:id/edit', function(req,res){
+app.get('/posts/:id/edit',routeMiddleware.ensureLoggedIn, function(req,res){
   db.Post.findById(req.params.id).populate("comments").exec(function(err,post){
     res.render("posts/edit", {post:post});
   })
    
 });
 //update
-app.put('/posts/:id',routeMiddleware.ensureCorrectUser, function(req,res){
+app.put('/posts/:id',routeMiddleware.ensureCorrectUser,routeMiddleware.ensureLoggedIn, function(req,res){
  db.Post.findByIdAndUpdate(req.params.id, req.body.post,
      function (err, post) {
        if(err) {
@@ -129,7 +129,7 @@ app.put('/posts/:id',routeMiddleware.ensureCorrectUser, function(req,res){
 });
 
 // DESTROY
-app.delete('/posts/:id',routeMiddleware.ensureCorrectUser, function(req,res){
+app.delete('/posts/:id',routeMiddleware.ensureCorrectUser,routeMiddleware.ensureLoggedIn, function(req,res){
   db.Post.findById(req.params.id,
     function (err, post) {
       if(err) {
@@ -155,7 +155,7 @@ app.delete('/posts/:id',routeMiddleware.ensureCorrectUser, function(req,res){
 // });
 
 // NEW
-app.get('/posts/:post_id/comments/new', function(req,res){
+app.get('/posts/:post_id/comments/new',routeMiddleware.ensureLoggedIn, function(req,res){
   db.Post.findById(req.params.post_id,
     function (err, post) {
       res.render("comments/new", {post:post});
@@ -165,6 +165,9 @@ app.get('/posts/:post_id/comments/new', function(req,res){
 // CREATE
 app.post('/posts/:post_id/comments', function(req,res){
 
+
+//create a comment and add session id for ownerid
+//before pushing it through the createcomment 
   var newComment = req.body.comment;
   newComment.ownerId = req.session.id;
 
@@ -188,7 +191,7 @@ app.post('/posts/:post_id/comments', function(req,res){
 });
 
 // SHOW
-app.get('/posts/:post_id/comments/:id', function(req,res){
+app.get('/posts/:post_id/comments/:id',routeMiddleware.ensureLoggedIn, function(req,res){
   //can you remove part of the route?
   //can remove the first part becuz of parent/child relat
   db.Comment.findById(req.params.id)
@@ -201,7 +204,7 @@ app.get('/posts/:post_id/comments/:id', function(req,res){
 
 // EDIT
 
-app.get('/posts/:post_id/comments/:id/edit', function(req,res){
+app.get('/posts/:post_id/comments/:id/edit',routeMiddleware.ensureLoggedIn, function(req,res){
   db.Comment.findById(req.params.id)
     .populate('post')
     .exec(function(err,comment){
@@ -223,7 +226,7 @@ app.put('/posts/:post_id/comments/:id', function(req,res){
 });
 
 // DESTROY
-app.delete('/posts/:post_id/comments/:id',routeMiddleware.ensureCorrectUserCom, function(req,res){
+app.delete('/posts/:post_id/comments/:id',routeMiddleware.ensureCorrectUserCom,routeMiddleware.ensureLoggedIn, function(req,res){
  db.Comment.findByIdAndRemove(req.params.id, req.body.comments,
       function (err, comment) {
         if(err) {
